@@ -1,0 +1,16 @@
+{% extends 'socialupdate/base.html' %}
+{% load crispy_forms_tags %}
+{% block side-content %}
+	
+	<div class="card px-3 py-2">
+		<h2>Register</h2>
+		<hr style="margin-top: 5px; margin-bottom: 5px">
+		<form method="POST">
+			{% csrf_token %}
+			{{ form|crispy }}
+			<button class="btn btn-primary" type="Submit">Submit</button>
+		</form>
+		<h5 class="pt-2"><small class="text-muted">Already have an account! <a href="{% url 'socialupdate-login' %}">login here</a></small></h5>
+	</div>
+
+{% endblock %}

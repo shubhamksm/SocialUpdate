@@ -1,0 +1,15 @@
+{% extends 'socialupdate/base.html' %}
+
+{% block main-content %}
+
+	<h2>Profile</h2>
+	<div class="content-section">
+		<div class="media">
+			<img class="rounded-circle account-img" src="{{ user.profile.profile_pic.url }}" alt="No image available" width="250px">
+			<div class="media-body">
+				<h4 class="account-heading">{{ user.first_name }}</h5>
+				<p class="text-secondary">{{ user.email }}</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

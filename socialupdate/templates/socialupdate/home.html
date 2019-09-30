@@ -1,0 +1,62 @@
+{% extends 'socialupdate/base.html' %}
+{% load static%}
+{% block side-content %}
+{% load crispy_forms_tags %}
+	<div class="card p-2">
+		<form enctype="multipart/form-data" method='POST'>
+			{% csrf_token %}
+		
+		<!-- Automatic Form
+
+			{{ form|crispy }}
+		
+		-->
+
+		<!-- Manual Form : -->
+			<h3>New Post</h3>
+			<div class="form-group">
+				<textarea class="form-control" id="id_description" name="description" placeholder="Description"></textarea>
+			</div>
+			<div class="form-group">
+				<div class="custom-file">
+					<label for="id_content_img" class="custom-file-label text-muted">Image</label>
+					<input class="custom-file-input" type="file" accept="image/*" id="id_content_img" name="content_img">
+				</div> 
+			</div>
+
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+{% endblock %}
+
+{% block main-content %}
+	{% for post in posts %}
+
+		<div class="card mb-4"style="width: 28rem;">
+		  <div class="card-header text-muted">
+	        <a href="#">
+	        	{% if post.posted_by.first_name %}
+	        		{{ post.posted_by.first_name }}
+	        	{% else %}
+	        		{{ post.posted_by }}
+	        	{% endif %}
+	    	</a>
+	        Posted on {{ post.posted_at|date:"dS M, Y" }}
+	      </div>
+	      <img class="card-img-top img-fluid " src="{{ post.content_img.url }}" alt="No image available" style="align-self: center;">
+	      <div class="card-body">
+			<p class="card-text">{{ post.description }}</p>
+			<hr>
+			<form method="POST">
+				<i type="submit" class="far fa-thumbs-up float-left"></i>
+			</form>
+			<form class="float-right" method="POST">
+				<input class="rounded" type="text" placeholder="Comment here">
+				<button class="btn btn-outline-info" type="submit">Post</button>
+			</form>
+	      </div>
+	    </div>
+
+    {% endfor %}
+
+{% endblock main-content %}
