@@ -128,3 +128,5 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = 'socialupdate-home'
+
+LOGOUT_REDIRECT_URL = 'socialupdate-login'

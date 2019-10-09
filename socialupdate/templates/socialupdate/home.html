@@ -1,11 +1,12 @@
 {% extends 'socialupdate/base.html' %}
 {% load static%}
+<!--
 {% block side-content %}
 {% load crispy_forms_tags %}
 	<div class="card p-2">
 		<form enctype="multipart/form-data" method='POST'>
 			{% csrf_token %}
-		
+-->		
 		<!-- Automatic Form
 
 			{{ form|crispy }}
@@ -13,6 +14,7 @@
 		-->
 
 		<!-- Manual Form : -->
+<!--
 			<h3>New Post</h3>
 			<div class="form-group">
 				<textarea class="form-control" id="id_description" name="description" placeholder="Description"></textarea>
@@ -28,6 +30,9 @@
 		</form>
 	</div>
 {% endblock %}
+
+-->
+
 
 {% block main-content %}
 	{% for post in posts %}

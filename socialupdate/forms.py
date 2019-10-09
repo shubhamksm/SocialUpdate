@@ -11,6 +11,7 @@ class PostForm(forms.ModelForm):
 		model = Post
 		fields = ('description', 'content_img',)
 
+
 class ExtendedUserCreationForm(UserCreationForm):
 
 	email = forms.EmailField(required=True)

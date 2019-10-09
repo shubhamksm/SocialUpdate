@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
+from django.shortcuts import reverse
+
 # Create your models here.
 
 class Post(models.Model):
@@ -14,6 +16,9 @@ class Post(models.Model):
 
 	def __str__(self):
 		return self.description
+
+	def get_absolute_url(self):
+		return reverse('socialupdate-home')
 
 
 class Comment(models.Model):

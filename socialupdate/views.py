@@ -1,26 +1,27 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, logout, authenticate
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 
 from .models import Post
 
 from django.views import View
+from django.views.generic.edit import CreateView
 
 from .forms import PostForm, ExtendedUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 
 
-class HomeView(View):
+# Class based HomeView 
+class HomeView(LoginRequiredMixin, View):
 
-	template_name = 'socialupdate/home.html'	
+	template_name = 'socialupdate/hometrial.html'	
 
 	def get(self, request):
-
-		if 'is_logout' in request.GET:
-			logout(request)
-			return redirect('socialupdate-login')
 		
 		posts = Post.objects.order_by('-posted_at')
 		form = PostForm()
@@ -32,6 +33,8 @@ class HomeView(View):
 
 		form = PostForm(request.POST, request.FILES)
 		if form.is_valid():
+			img1 = form.cleaned_data['content_img']
+			print(img1.size)
 			postCreated = form.save(commit=False)
 			postCreated.posted_by = request.user
 			postCreated.save()
@@ -42,6 +45,7 @@ class HomeView(View):
 
 		return render(request, self.template_name, context)
 
+# Function Based HomeView
 '''
 @login_required
 def HomeView(request):
@@ -94,19 +98,27 @@ def LoginView(request):
 	return render(request, 'socialupdate/loginPage.html', content)
 '''
 
-@login_required
-def CreatePostView(request):
+#Class based CreateView
+class PostCreateView(LoginRequiredMixin, CreateView):
+	template_name = 'socialupdate/createPost.html'
+	form_class = PostForm
 
-	if request.method == 'POST':
-		form = request.POST
-
-	return render(request, 'socialupdate/createPost.html')
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.posted_by = self.request.user
+		self.object.save()
+		return super(PostCreateView, self).form_valid(form)
 
 #Vannilla class based User Creation View :
-class UserCreationView(View):
+class UserCreationView(CreateView):
 
 	template_name = 'socialupdate/userCreationPage.html'
-
+	form_class = ExtendedUserCreationForm
+	
+	def get_success_url(self):
+		messages.success(self.request, f'Account has been created successfully!, Please login')
+		return reverse('socialupdate-login')
+'''
 	def get(self, request):
 
 		form = ExtendedUserCreationForm()
@@ -119,6 +131,7 @@ class UserCreationView(View):
 			form.save()
 			messages.success(request, f'Account has been created successfully!, Please login')
 			return redirect('socialupdate-login')
+'''
 
 #Function Based User Creation View:
 '''

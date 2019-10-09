@@ -16,13 +16,14 @@ Including another URLconf
 
 from django.urls import path, include
 
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
 urlpatterns = [
 	path('', views.HomeView.as_view(), name='socialupdate-home'),
 	path('login/', LoginView.as_view(template_name='socialupdate/loginPage.html'), name='socialupdate-login'),
-	path('createPost/', views.CreatePostView, name='socialupdate-createPost'),
+    path('logout/', LogoutView.as_view(), name='socialupdate-logout'),
+	path('createPost/', views.PostCreateView.as_view(), name='socialupdate-createPost'),
 	path('userCreation/', views.UserCreationView.as_view(), name='socialupdate-userCreation'),
 	path('profile/', views.ProfileView, name='socialupdate-profile'),
 ]
