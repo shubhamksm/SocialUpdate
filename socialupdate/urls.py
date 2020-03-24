@@ -1,7 +1,7 @@
-"""firstproject URL Configuration
+"""socialupdate URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
+    https://docs.djangoproject.com/en/3.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -13,17 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
-from django.urls import path, include
-
-from django.contrib.auth.views import LoginView, LogoutView
-from . import views
+from django.contrib import admin
+from django.urls import path
 
 urlpatterns = [
-	path('', views.HomeView.as_view(), name='socialupdate-home'),
-	path('login/', LoginView.as_view(template_name='socialupdate/loginPage.html'), name='socialupdate-login'),
-    path('logout/', LogoutView.as_view(), name='socialupdate-logout'),
-	path('createPost/', views.PostCreateView.as_view(), name='socialupdate-createPost'),
-	path('userCreation/', views.UserCreationView.as_view(), name='socialupdate-userCreation'),
-	path('profile/', views.ProfileView, name='socialupdate-profile'),
+    path('admin/', admin.site.urls),
 ]
